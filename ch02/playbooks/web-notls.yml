@@ -2,17 +2,26 @@
 - name: Configure webserver with nginx
   hosts: webservers
   become: True
+  pre_tasks:
+    - name: install epel-repo on CentOS7
+      yum_repository:
+        name: epel
+        description: epel-repo for CentOS7
+        baseurl: https://mirrors.tuna.tsinghua.edu.cn/epel/7/$basearch
+
   tasks:
     - name: install nginx
-      apt: name=nginx update_cache=yes
+      # yum模块:
+      # state: present(安装)/installed(安装) absent(卸载)/removed(卸载) latest(安装并更新到最新版)
+      # update_cache: 强制更新yum缓存
+      # disable_gpg_check: 禁用GPG签名验证
+      yum: name=nginx state=present update_cache=yes disable_gpg_check=yes
+
     - name: copy nginx config file
-      copy: src=files/nginx.conf dest=/etc/nginx/sites-available/default
-    - name: enable configuration
-      file: >
-        dest=/etc/nginx/sites-enabled/default
-        src=/etc/nginx/sites-available/default
-        state=link
+      template: src=files/nginx.conf dest=/etc/nginx/nginx.conf
+    
     - name: copy index.html
-      template: src=templates/index.html.j2 dest=/usr/share/nginx/html/index.html mode=0644
+      template: src=files/index.html dest=/usr/share/nginx/html/index.html mode=0644
+    
     - name: restart nginx
       service: name=nginx state=restarted

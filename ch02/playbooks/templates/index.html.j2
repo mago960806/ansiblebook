@@ -1,12 +1,14 @@
-<html>
+<!DOCTYPE html>
+<html lang="zh">
   <head>
-    <title>Welcome to ansible</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>欢迎使用 Ansible </title>
   </head>
   <body>
-  <h1>nginx, configured by Ansible</h1>
-  <p>If you can see this, Ansible successfully installed nginx.</p>
-
-  <p>Running on {{ inventory_hostname }}</p>
+    <h1>由 Ansible 配置的 nginx </h1>
+    <p>如果你能看到这条消息, 说明 Ansible 成功的安装了 nginx。</p>
+    <p>运行在 {{ inventory_hostname }}</p>
   </body>
 </html>
-
